@@ -43,6 +43,55 @@ var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={
 
 map.attributionControl.addAttribution('BENJAMIN OWINO');
 
+var highlightStyle = {
+    weight: 3,
+    color: '#3B555C',
+    dashArray: '',
+    fillOpacity: 0.4
+}
+
+function highlightFeature(evt) {
+    var feature = evt.target;
+    feature.setStyle(highlightStyle);
+    if (!L.Browser.ie && !L.Browser.opera) {
+        feature.bringToFront();
+    }
+}
+
+
+
+function resetHighlight(evt) {
+    countyPops.resetStyle(evt.target);
+}
+
+// function popUpFeature(feature, layer) {
+//     var popupText = "Yo, I'm a <b>" + feature.properties.party + "</b> y'all!<br>";
+//     layer.bindPopup(popupText);
+// }
+
+// function zoomToFeature(evt) {
+//     fitBounds(evt.target.getBounds());
+// }
+
+
+
+var onEachFeature = function(feature, layer) {
+    // popUpFeature(feature, layer);
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: clickhighlightFeature
+    });
+}
+
+function clickhighlightFeature(evt) {
+    var feature = evt.target;
+    feature.setStyle(highlightStyle);
+    if (!L.Browser.ie && !L.Browser.opera) {
+        feature.bringToFront();
+    }
+}
+
 var countyPops = L.esri.featureLayer({
     url: 'https://services8.arcgis.com/M8cCPjM7UQWc3iHk/arcgis/rest/services/Kenya_County_Population/FeatureServer/0',
     style: function(feature) {
@@ -65,7 +114,7 @@ var countyPops = L.esri.featureLayer({
         }
 
     },
-
+    onEachFeature: onEachFeature,
 
 }).addTo(map);
 
@@ -81,10 +130,31 @@ $("#popr").on('click', function() {
 });
 
 
+var highlight = {
+    'color': '#037ef1',
+    'weight': 2,
+    'opacity': 1
+};
+
+
 countyPops.on('click', function(e) {
     selectedCounty = e.layer.feature.properties;
+    // layer_group = e.layer
+    // var layer_group = e.layer.setStyle(highlight)
+    // layer_group.setStyle(highlight);
+
+
     displaySelected();
 });
+
+// function highlightFeature(e) {
+//     if (highlightLayer) {
+//         for (i in e.target._eventParents) {
+//             e.target._eventParents[i].resetStyle(highlightLayer);
+//         }
+//     }
+//     highlightLayer = e.target;
+// }
 
 
 var selectedCounty = {};
@@ -92,15 +162,15 @@ var selectedCounty = {};
 function displaySelected() {
     const html = `
     <h5>${selectedCounty.COUNTYNAME} County statistics</h5>
-    <table class="table">
+    <table class="table" width="100%">
     <tbody>
-    <thead>
-        <tr>
-            <td>
-                <h6><b>Property</b></h6></td><td><h6><b>Value</b></h6>
-            </td>
-        </tr>
-    </thead>
+        <thead>
+            <tr>
+                <td>
+                    <h6><b>Property</b></h6></td><td><h6><b>Value</b></h6>
+                </td>
+            </tr>
+        </thead>
       <tr>
         <th>County Code</th>
         <td>${selectedCounty.COUNTYCODE}</td>
@@ -396,15 +466,15 @@ function displaySelectedWard() {
     </thead>
         <tr>
             <th>County</th>
-            <td>${selectedWard.COUNTY_NAM}</td>
+            <td class="table_dat">${selectedWard.COUNTY_NAM}</td>
         </tr>
         <tr>
             <th>Constituency</th>
-            <td>${(selectedWard.CONSTITUEN)}</td>
+            <td class="table_dat">${(selectedWard.CONSTITUEN)}</td>
         </tr>
         <tr>
             <th>Registered Voters</th>
-            <td>${(selectedWard.REGISTERED)}</td>
+            <td class="table_dat">${(selectedWard.REGISTERED)}</td>
         </tr>
         <tr>
             <th>Valid Votes</th>

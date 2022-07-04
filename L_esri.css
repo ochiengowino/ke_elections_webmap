@@ -58,6 +58,11 @@ body {
 } */
 
 
+/* .clol{
+    color: #037ef1;
+} */
+
+
 /* .geocoder-control-suggestions .geocoder-control-suggestion {
     overflow-wrap: break-word;
     word-break: break-all;
@@ -96,10 +101,70 @@ body {
 }
 
 .card-attr {
-    width: 300px !important;
+    width: 250px !important;
 }
 
 .control-frame {
-    overflow: scroll !important;
+    overflow: auto !important;
+    overflow-x: hidden !important;
+    /* overflow-y: hidden !important; */
+    width: 200px !important;
     height: 750px;
+}
+
+
+/* .table {
+    padding: 1px !important;
+} */
+
+.attr-body {
+    padding: 2px;
+    width: 200px !important;
+}
+
+.top_nav {
+    height: 45px !important;
+    margin-bottom: 1px !important;
+}
+
+.page_cont {
+    padding-left: 0px !important;
+    padding-right: 5px !important;
+    margin-bottom: 0px !important;
+}
+
+#content {
+    padding-bottom: 0px !important;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.table_dat {
+    font-size: 15px !important;
 }
